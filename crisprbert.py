@@ -16,14 +16,14 @@ def parse_arguments():
     parser = argparse.ArgumentParser()
     parser.add_argument("--evaluate", type=str.lower, choices=["true", "false"], required=True,
                         help="This argument is required. Either true or false.")
-    parser.add_argument("--is_k_cross", type=str.lower, choices=["true", "false"], required=True,
-                        help="This argument is required. Either true or false.")
+    parser.add_argument("--is_k_cross", type=str.lower, choices=["true", "false"],
+                        help="This argument is required when --evaluate is False. Either true or false.")
     parser.add_argument("--training", type=str.lower, choices=["true", "false"], required=True,
                         help="This argument is required. Either true or false.")
     parser.add_argument("--file_path", type=str, required=True,
                         help="This argument is required. Please enter your data file path.")
     parser.add_argument("--model_path", type=str, required=True,
-                        help="This argument is required. Please enter your model save path.")
+                        help="This argument is required. Please enter your model save or load path.")
     parser.add_argument("--hidden_size", type=int, default=64)
     parser.add_argument("--intermediate_size", type=int, default=2048)
     parser.add_argument("--num_attention_heads", type=int, default=8)
@@ -37,7 +37,7 @@ def parse_arguments():
     parser.add_argument("--num_epochs", type=int, default=400)
     parser.add_argument("--batch_size", type=int, default=128)
     parser.add_argument("--learning_rate", type=float, default=2e-5)
-    parser.add_argument("--learning_decay", type=str.lower, default="false")
+    parser.add_argument("--learning_decay", type=str.lower, choices=["true", "false"], default="false")
     parser.add_argument("--n_split", type=int, default=5)
 
     return parser.parse_args()
@@ -144,7 +144,7 @@ def crisp_bert_single_split(encode_matrix, class_labels, vocab_size, input_shape
     model = create_model(vocab_size, input_shape, hidden_size, intermediate_size, hidden_act, num_attention_heads,
                          num_hidden_layers,
                          hidden_dropout_prob, attention_probs_dropout_prob, learning_rate, training)
-    callbacks = []
+
     if learning_decay:
         lr_scheduler = ReduceLROnPlateau(monitor='val_loss', factor=0.5, patience=5, verbose=1, min_lr=1e-6)
         callbacks = [lr_scheduler, tf.keras.callbacks.CSVLogger("results.csv")]
@@ -197,7 +197,6 @@ def crisp_bert_k_fold(encode_matrix, class_labels, base_list, vocab_size, input_
             print('----------------------------------------------------------------------------------')
             print(f'Training for fold {number} ...')
 
-            callbacks = []
             if learning_decay:
                 lr_scheduler = ReduceLROnPlateau(monitor='val_loss', factor=0.5, patience=5, verbose=1, min_lr=1e-6)
                 callbacks = [lr_scheduler, tf.keras.callbacks.CSVLogger(name)]
@@ -250,6 +249,8 @@ def crisp_bert(encode_matrix, class_labels, base_list, vocab_size, input_shape, 
 if __name__ == "__main__":
     args = parse_arguments()
     args.evaluate = args.evaluate == "true"
+    if not args.evaluate and args.is_k_cross is None:
+        argparse.ArgumentParser().error("--is_k_cross is required when --evaluate is False")
     args.is_k_cross = args.is_k_cross == "true"
     args.training = args.training == "true"
     args.learning_decay = args.learning_decay == "true"
