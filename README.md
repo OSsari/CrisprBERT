@@ -20,7 +20,7 @@ Look at the [Parameters](##Parameters) section for more information.
 For example, you can run the following command in your local environment:
 
 ```
-python bert.py --evaluate False --is_k_cross False --training False --file_path example.csv --model_path ./model/model 
+python crisprbert.py --evaluate False --is_k_cross False --file_path example.csv --model_path ./model/model 
 ```
 
 For more information about the BERT layer parameters, please consult

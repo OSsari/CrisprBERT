@@ -18,7 +18,7 @@ def parse_arguments():
                         help="This argument is required. Either true or false.")
     parser.add_argument("--is_k_cross", type=str.lower, choices=["true", "false"],
                         help="This argument is required when --evaluate is False. Either true or false.")
-    parser.add_argument("--training", type=str.lower, choices=["true", "false"], required=True,
+    parser.add_argument("--training", type=str.lower, choices=["true", "false"],
                         help="This argument is required. Either true or false.")
     parser.add_argument("--file_path", type=str, required=True,
                         help="This argument is required. Please enter your data file path.")
