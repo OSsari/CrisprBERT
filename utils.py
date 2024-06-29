@@ -86,6 +86,15 @@ def dense_encoder(target_RNA, reverse_DNA, pairs, encoding='doublet'):
     return encode
 
 
+def extract_file_name(name):
+    # Find the position of the last '/'
+    last_slash_index = name.rfind('/')
+    # Find the position of '.csv'
+    dot_csv_index = name.rfind('.csv')
+    # Extract the part of the string between the last '/' and '.csv'
+    name = name[last_slash_index + 1:dot_csv_index]
+    return name
+
 class off_tar_read(object):
     """Read and encode the data"""
 
@@ -107,35 +116,31 @@ class off_tar_read(object):
         print('.\n.\n.')
         print(self.read_file.tail())
         print('\n')
-        reverse_RNA = reverse_seq(self.off_tar)
 
+        name = extract_file_name(self.file_path)
         if encoding == 'doublet':
             print('Doublet encoding...')
-            name = self.file_path + '_doublet_encoded.txt'
-            encode_path = 'encoded_data/' + name[4:]
+            name = name + '_doublet_encoded.txt'
 
         elif encoding == 'triplet':
             print('Triplet encoding...')
-            name = self.file_path + '_triplet_encoded.txt'
-            encode_path = 'encoded_data/' + name[4:]
+            name = name + '_triplet_encoded.txt'
 
         elif encoding == 'single':
             print('Single encoding...')
-            name = self.file_path + '_single_encoded.txt'
-            encode_path = 'encoded_data/' + name[4:]
+            name = name + '_single_encoded.txt'
 
         else:
             print('Invalid encoding nomenclature. Encoding options: "single", "doublet" or "triplet" ')
             sys.exit()
 
+        encode_path = 'encoded_data/' + name
         if os.path.isfile(encode_path):  # If the encoded data exists, use that instead
             encode_matrix = np.loadtxt(encode_path)
         else:  # If encoded data does not exist, do it from scratch
+            reverse_RNA = reverse_seq(self.off_tar)
             encode_matrix = dense_encoder(self.target, reverse_RNA, self.pairs,
                                           encoding)  # dense encoding for doublet encoding
-            # cls_column = np.full((encode_matrix.shape[0],1), len(self.pairs)+1)
-            # # sep_column = np.full((encode_matrix.shape[0],1), len(self.pairs)+2)
-            # encode_matrix = np.hstack((cls_column, encode_matrix))
             np.savetxt(encode_path, encode_matrix)
 
         assert encode_matrix.shape[0] == len(self.labels)  # sanity check for labels and encode array

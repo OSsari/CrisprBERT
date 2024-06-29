@@ -1,5 +1,5 @@
 """
-Main CrisprBert executable file
+Main CrisprBERT executable file
 """
 
 import csv
@@ -8,7 +8,6 @@ from utils import *
 import tensorflow as tf
 from tensorflow.keras.callbacks import ReduceLROnPlateau
 import transformers
-from sklearn.model_selection import train_test_split
 
 
 # %% Hyper parameters
@@ -132,6 +131,8 @@ def crisp_bert_single_split(encode_matrix, class_labels, vocab_size, input_shape
                             hidden_dropout_prob, attention_probs_dropout_prob, learning_rate,
                             learning_decay,
                             valid_size, test_size, batch_size, num_epochs, model_pathway, training):
+    from sklearn.model_selection import train_test_split
+
     if test_size != 0:
         [encode_matrix, testing_seq, class_labels, testing_label] = train_test_split(encode_matrix,
                                                                                      class_labels, test_size=test_size,
@@ -234,9 +235,9 @@ def crisp_bert(encode_matrix, class_labels, base_list, vocab_size, input_shape, 
     model.load_weights(model_pathway)
     results = model.predict(x=encode_matrix)
 
-    with open('./crispBERT_results.csv', 'w', newline='') as result:
+    with open('./crisprBERT_results.csv', 'w', newline='') as result:
         wtr = csv.writer(result)
-        wtr.writerow(('off_target', 'on_target', 'labels', 'CrispBERT score'))
+        wtr.writerow(('off_target', 'on_target', 'labels', 'CrisprBERT score'))
 
         L = GetSeq(encode_matrix, base_list)
         on_tar, off_tar = L.get_reverse(encoding)
@@ -284,3 +285,4 @@ if __name__ == "__main__":
                                     args.valid_size, args.test_size, args.batch_size, args.num_epochs,
                                     args.model_path,
                                     args.training)
+
