@@ -20,11 +20,19 @@ Look at the [Parameters](##Parameters) section for more information.
 For example, you can run the following command in your local environment:
 
 ```
-python crisprbert.py --evaluate False --is_k_cross False --file_path example.csv --model_path ./model/model 
+python crisprbert.py --evaluate False --is_k_cross False --file_path train.csv --model_path ./model/model 
 ```
 
+This command runs CirsprBERT in a training setting where it will leave a single validation set, with the data file train.csv and model path ./model/model. You can then run the following command to evaluate the saved model on a different dataset, say evaluate.csv:
+
+```
+python crisprbert.py --evaluate True --file_path evaluate.csv --model_path ./model/model 
+```
+
+The model will run as long as the model paramters inputted are the same as those for the training command.
+
 For more information about the BERT layer parameters, please consult
-the [transformers](https://huggingface.co/docs/transformers/model_doc/bert) library website.
+the [Transformers](https://huggingface.co/docs/transformers/model_doc/bert) library website.
 
 ## Parameters:
 
