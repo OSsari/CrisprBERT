@@ -9,7 +9,7 @@
 - scikit-learn==1.0.2
 - transformers==4.8.2
 
-## How to run:
+## Running CrisprBERT:
 
 You can run **crisprbert.py** in your local environment with the appropriate arguments. To train CrisprBERT on a
 dataset, you can either use a single split train/validation scheme or a k-cross validation configuration. Note that a new
@@ -29,10 +29,14 @@ This command runs CirsprBERT in a training setting where it will leave a single 
 python crisprbert.py --evaluate True --file_path evaluate.csv --model_path ./model/model 
 ```
 
-The model will run as long as the model paramters inputted are the same as those for the training command.
+The model will run as long as the model paramters inputted in the evaluate command are the same as those inputted for the training command. Model paramteres can be further customized by using the appropriate commands.  
 
 For more information about the BERT layer parameters, please consult
 the [Transformers](https://huggingface.co/docs/transformers/model_doc/bert) library website.
+
+## Data Format:
+
+The format of the datafile must be the same as the Change_seq.csv file. In particular, three columns are necessary: (1) sequence, (2) Target sequence and (3) class. The sequence column is reserved for the sgRNAs, the Target sequence for the off-target sites, and the class for the binary classifications (1 for off-target, 0 otherwise). Note that no indel sequences are allowed. The NGG sequence must be present (hence 22 nucleotide sequences) and only the four nucleatide letters are recognized (A, C, G, T).  
 
 ## Parameters:
 
