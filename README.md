@@ -36,7 +36,7 @@ the [Transformers](https://huggingface.co/docs/transformers/model_doc/bert) libr
 
 ## Data Format:
 
-The format of the datafile must be the same as the Change_seq.csv file. In particular, three columns are necessary: (1) sequence, (2) Target sequence and (3) class. The sequence column is reserved for the sgRNAs, the Target sequence for the off-target sites, and the class for the binary classifications (1 for positive off-targets, 0 otherwise). Note that no indel sequences are allowed. The NGG sequence must be present (hence 22 nucleotide sequences) and only the four nucleatide letters are recognized (A, C, G, T). Furthermore, the datafile must be placed in a folder called `data`. 
+The format of the datafile must be the same as the Change_seq.csv file and should be in a folder named **data**. In particular, three columns are necessary: (1) sequence, (2) Target sequence and (3) class. The sequence column is reserved for the sgRNAs, the Target sequence for the off-target sites, and the class for the binary classifications (1 for positive off-targets, 0 otherwise). Note that no indel sequences are allowed. The NGG sequence must be present (hence 22 nucleotide sequences) and only the four nucleatide letters are recognized (A, C, G, T).  
 
 ## Parameters:
 
