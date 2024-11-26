@@ -20,13 +20,13 @@ Look at the [Parameters](##Parameters) section for more information.
 For example, you can run the following command in your local environment:
 
 ```
-python crisprbert.py --evaluate False --is_k_cross False --file_path train.csv --model_path ./model/model 
+python crisprbert.py --evaluate False --is_k_cross False --file_path data/train.csv --model_path ./model/model 
 ```
 
 This command runs CirsprBERT in a training setting where it will leave a single validation set, with the data file train.csv and model path ./model/model. You can then run the following command to evaluate the saved model on a different dataset, say evaluate.csv:
 
 ```
-python crisprbert.py --evaluate True --file_path evaluate.csv --model_path ./model/model 
+python crisprbert.py --evaluate True --file_path data/evaluate.csv --model_path ./model/model 
 ```
 
 The model will run as long as the model paramters inputted in the evaluate command are the same as those inputted for the training command. Model paramteres can be further customized by using the appropriate commands.  
@@ -36,7 +36,7 @@ the [Transformers](https://huggingface.co/docs/transformers/model_doc/bert) libr
 
 ## Data Format:
 
-The format of the datafile must be the same as the Change_seq.csv file. In particular, three columns are necessary: (1) sequence, (2) Target sequence and (3) class. The sequence column is reserved for the sgRNAs, the Target sequence for the off-target sites, and the class for the binary classifications (1 for positive off-targets, 0 otherwise). Note that no indel sequences are allowed. The NGG sequence must be present (hence 22 nucleotide sequences) and only the four nucleatide letters are recognized (A, C, G, T).  
+The format of the datafile must be the same as the Change_seq.csv file. In particular, three columns are necessary: (1) sequence, (2) Target sequence and (3) class. The sequence column is reserved for the sgRNAs, the Target sequence for the off-target sites, and the class for the binary classifications (1 for positive off-targets, 0 otherwise). Note that no indel sequences are allowed. The NGG sequence must be present (hence 22 nucleotide sequences) and only the four nucleatide letters are recognized (A, C, G, T). Furthermore, the datafile must be placed in a folder called `data`. 
 
 ## Parameters:
 
